@@ -1,0 +1,90 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.35.0.
+--
+-- see: https://github.com/sol/hpack
+
+name:           adventOfCode2023
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/pepijno/adventOfCode2023#readme>
+homepage:       https://github.com/pepijno/adventOfCode2023#readme
+bug-reports:    https://github.com/pepijno/adventOfCode2023/issues
+author:         pepijno
+maintainer:     pepijno
+copyright:      2023 pepijno
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/pepijno/adventOfCode2023
+
+library
+  exposed-modules:
+      Grid
+      Lib
+      Parser
+  other-modules:
+      Paths_adventOfCode2023
+  hs-source-dirs:
+      src
+  default-extensions:
+      NumericUnderscores
+      TypeApplications
+      LambdaCase
+      FlexibleContexts
+      TupleSections
+  build-depends:
+      adjunctions
+    , array
+    , base >=4.7 && <5
+    , comonad
+    , containers
+    , distributive
+    , extra
+    , hashable
+    , mtl
+    , multiset
+    , parsec
+    , pqueue
+    , split
+    , timeit
+    , unordered-containers
+    , vector
+  default-language: Haskell2010
+
+test-suite adventOfCode2023-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  hs-source-dirs:
+      test
+  default-extensions:
+      NumericUnderscores
+      TypeApplications
+      LambdaCase
+      FlexibleContexts
+      TupleSections
+  ghc-options: -O2 -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      adjunctions
+    , adventOfCode2023
+    , array
+    , base >=4.7 && <5
+    , comonad
+    , containers
+    , distributive
+    , extra
+    , hashable
+    , mtl
+    , multiset
+    , parsec
+    , pqueue
+    , split
+    , timeit
+    , unordered-containers
+    , vector
+  default-language: Haskell2010

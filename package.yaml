@@ -1,0 +1,66 @@
+name:                adventOfCode2023
+version:             0.1.0.0
+github:              "pepijno/adventOfCode2023"
+license:             BSD3
+author:              "pepijno"
+copyright:           "2023 pepijno"
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Web
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on GitHub at <https://github.com/pepijno/adventOfCode2023#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+- split
+- containers
+- extra
+- vector
+- distributive
+- adjunctions
+- comonad
+- hashable
+- parsec
+- array
+- pqueue
+- timeit
+- multiset
+- mtl
+- unordered-containers
+
+library:
+  source-dirs: src
+
+_exe-defs: &exe-defaults
+  other-modules: []
+  source-dirs: app
+  dependencies:
+  - adventOfCode2023
+  ghc-options:
+  - -O2
+  - -threaded
+  - -rtsopts
+  - -with-rtsopts=-N
+
+executables:
+
+tests:
+  adventOfCode2023-test:
+    main:                Spec.hs
+    source-dirs:         test
+    <<: *exe-defaults
+
+default-extensions:
+  - NumericUnderscores
+  - TypeApplications
+  - LambdaCase
+  - FlexibleContexts
+  - TupleSections
