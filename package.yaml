@@ -35,6 +35,7 @@ dependencies:
 - multiset
 - mtl
 - unordered-containers
+- text
 
 library:
   source-dirs: src
@@ -51,6 +52,9 @@ _exe-defs: &exe-defaults
   - -with-rtsopts=-N
 
 executables:
+  day1:
+    main: Day1.hs
+    <<: *exe-defaults
 
 tests:
   adventOfCode2023-test:
