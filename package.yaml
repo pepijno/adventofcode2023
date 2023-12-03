@@ -36,6 +36,7 @@ dependencies:
 - mtl
 - unordered-containers
 - text
+- bytestring
 
 library:
   source-dirs: src
@@ -52,6 +53,12 @@ _exe-defs: &exe-defaults
   - -with-rtsopts=-N
 
 executables:
+  day3:
+    main: Day3.hs
+    <<: *exe-defaults
+  day2:
+    main: Day2.hs
+    <<: *exe-defaults
   day1:
     main: Day1.hs
     <<: *exe-defaults
