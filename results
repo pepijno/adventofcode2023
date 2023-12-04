@@ -3,14 +3,19 @@ day1:
 54450
 CPU time:   0.02s
 54265
-CPU time:   0.01s
+CPU time:   0.09s
 day2:
 2776
-CPU time:   0.04s
+CPU time:   0.01s
 68638
 CPU time:   0.01s
 day3:
 531561
-CPU time:   0.13s
+CPU time:   0.06s
 83279367
-CPU time:   0.35s
+CPU time:   0.40s
+day4:
+24706
+CPU time:   0.05s
+13114317
+CPU time:   0.05s
