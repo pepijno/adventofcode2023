@@ -3,24 +3,34 @@ day1:
 54450
 CPU time:   0.02s
 54265
-CPU time:   0.09s
+CPU time:   0.04s
 day2:
 2776
-CPU time:   0.01s
+CPU time:   0.23s
 68638
 CPU time:   0.01s
 day3:
 531561
-CPU time:   0.06s
+CPU time:   0.07s
 83279367
-CPU time:   0.40s
+CPU time:   0.93s
 day4:
 24706
-CPU time:   0.05s
+CPU time:   0.06s
 13114317
-CPU time:   0.05s
+CPU time:   0.06s
 day5:
 177942185
-CPU time:   0.07s
+CPU time:   0.02s
 69841803
-CPU time: 1117.71s
+CPU time:   0.02s
+day6:
+588588
+CPU time:   0.00s
+34655848
+CPU time:   0.00s
+day7:
+245899795
+CPU time:   0.03s
+245794069
+CPU time:   0.04s

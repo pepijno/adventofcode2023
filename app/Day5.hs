@@ -1,54 +1,95 @@
+{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE TupleSections #-}
+{-# LANGUAGE OverloadedStrings #-}
+
 module Main where
 
 import Lib
 import Parser
 import qualified Data.Map.Strict as M
+import Control.Monad (guard)
+import Data.List
+import qualified Data.List.NonEmpty as NonEmpty
+import Data.Maybe
+import Data.Semigroup (sconcat)
 
-parseSeeds :: Parser [Int]
-parseSeeds = string "seeds: " *> (sepBy natural whiteSpace)
+data Range = Range {
+  source :: Int,
+  dest :: Int,
+  len :: Int
+} deriving (Show, Eq)
 
-parseRow :: Parser (Int, Int, Int)
+data Ranges = Ranges {
+  ranges :: [Range]
+} deriving (Show, Eq)
+
+combineRanges :: Ranges -> Ranges -> Ranges
+combineRanges (Ranges a) (Ranges b) = Ranges $ do
+  Range srcA destA lenA <- a
+  Range srcB destB lenB <- b
+  let newDest = destB + max 0 (destA - srcB)
+  let newSrc = srcA + max 0 (srcB - destA)
+  let newLen = min (destA + lenA) (srcB + lenB) - max destA srcB
+  let newRange = Range newSrc newDest newLen
+  guard $ ((>0) . len) newRange
+  return newRange
+
+parseRow :: Parser Range
 parseRow = do
   dest <- natural
   whiteSpace
   source <- natural
   whiteSpace
   len <- natural
-  return (source, dest, len)
+  return $ Range { source = source, dest = dest, len = len }
 
-parseMap :: Parser ((String, String), [(Int, Int, Int)])
-parseMap = do
-  optional (string "\n")
-  from <- letters
-  string "-to-"
-  to <- letters
-  string " map:\n"
-  rows <- sepBy parseRow (string "\n")
-  string "\n"
-  return ((from, to), rows)
+parseRanges :: Parser Ranges
+parseRanges = do
+  stringLiteral
+  char '\n'
+  ranges <- sepBy parseRow (char '\n')
+  char '\n'
+  return $ Ranges { ranges = ranges }
 
-mapNumber num [] = num
-mapNumber num ((source, dest, len):xs)
-  | num < source + len && num >= source = dest + (num - source)
-  | otherwise = mapNumber num xs
+parseInput :: Parser ([Int], [Ranges])
+parseInput = do
+  string "seeds: "
+  seeds <- sepBy1 natural whiteSpace
+  string "\n\n"
+  ranges <- sepBy parseRanges (char '\n')
+  return (seeds, ranges)
 
-processNumber maps num key = mapNumber num $ maps M.! key
-
--- solve1 :: [String] -> Int
-solve1 xs = minimum $ map (\seed -> foldl (processNumber maps) seed [("seed", "soil"), ("soil", "fertilizer"), ("fertilizer", "water"), ("water", "light"), ("light", "temperature"), ("temperature", "humidity"), ("humidity", "location")]) seeds
+fillRange :: Int -> [Range] -> [Range]
+fillRange index [] = [Range { source = index, dest = index, len = (maxBound - index) }]
+fillRange index (range:ranges) = before : range : fillRange newIndex ranges
   where
-    seeds = unsafeParse parseSeeds $ head xs
-    maps = M.fromList $ unsafeParse (many parseMap) $ unlines $ drop 2 xs
+    before = Range { source = index, dest = index, len = (source range - index) }
+    newIndex = source range + len range
 
-mapSeeds [] = []
-mapSeeds (a:b:xs) = [a..(a + b)] ++ mapSeeds xs
+fillRanges :: Ranges -> Ranges
+fillRanges = Ranges . filter ((>0) . len) . fillRange 0 . sortOn source . ranges
 
--- solve2 :: [String] -> Int
--- solve2 xs = minimum $ map (\seed -> foldl (processNumber maps) seed [("seed", "soil"), ("soil", "fertilizer"), ("fertilizer", "water"), ("water", "light"), ("light", "temperature"), ("temperature", "humidity"), ("humidity", "location")]) seeds
-solve2 xs = minimum $ map (\seed -> foldl (processNumber maps) seed [("seed", "soil"), ("soil", "fertilizer"), ("fertilizer", "water"), ("water", "light"), ("light", "temperature"), ("temperature", "humidity"), ("humidity", "location")]) seeds
+doSolve :: [Ranges] -> Int
+doSolve = minimum . map dest . ranges . foldl1 combineRanges
+
+solve1 :: [String] -> Int
+solve1 xs = doSolve filledRanges
   where
-    seeds = mapSeeds $ unsafeParse parseSeeds $ head xs
-    maps = M.fromList $ unsafeParse (many parseMap) $ unlines $ drop 2 xs
+    (seeds, ranges) = unsafeParse parseInput $ unlines xs
+    seedRanges = Ranges $ map (\s -> Range s s 1) seeds
+    filledRanges = seedRanges:(map fillRanges ranges)
+
+seedRanges :: [Int] -> [Range]
+seedRanges [] = []
+seedRanges (a:b:xs) = Range { source = a, dest = a, len = b}:(seedRanges xs)
+
+solve2 :: [String] -> Int
+solve2 xs = doSolve filledRanges
+  where
+    (seeds, rs) = unsafeParse parseInput $ unlines xs
+    seedRs = Ranges $ seedRanges seeds
+    filledRanges = seedRs:(map fillRanges rs)
 
 main :: IO()
 main = mainWrapper "day5" solve1 solve2
