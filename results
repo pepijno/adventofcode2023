@@ -1,29 +1,34 @@
 
+day10:
+7097
+CPU time:   0.20s
+355
+CPU time:   0.12s
 day1:
 54450
-CPU time:   0.02s
+CPU time:   0.10s
 54265
-CPU time:   0.03s
+CPU time:   0.13s
 day2:
 2776
-CPU time:   0.02s
+CPU time:   0.11s
 68638
-CPU time:   0.01s
+CPU time:   0.03s
 day3:
 531561
-CPU time:   0.14s
+CPU time:   0.24s
 83279367
-CPU time:   0.41s
+CPU time:   0.63s
 day4:
 24706
-CPU time:   0.06s
+CPU time:   0.20s
 13114317
-CPU time:   0.07s
+CPU time:   0.08s
 day5:
 177942185
-CPU time:   0.02s
+CPU time:   0.05s
 69841803
-CPU time:   0.02s
+CPU time:   0.07s
 day6:
 588588
 CPU time:   0.00s
@@ -31,16 +36,16 @@ CPU time:   0.00s
 CPU time:   0.00s
 day7:
 245899795
-CPU time:   0.03s
+CPU time:   0.18s
 245794069
-CPU time:   0.08s
+CPU time:   0.06s
 day8:
 18727
-CPU time:   0.02s
+CPU time:   0.25s
 18024643846273
 CPU time:   0.03s
 day9:
 1782868781
-CPU time:   0.06s
+CPU time:   0.21s
 1057
 CPU time:   0.02s
